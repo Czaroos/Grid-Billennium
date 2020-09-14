@@ -31,6 +31,8 @@ export default class Board {
 
     var _gridContainer = document.getElementById('container')!;
     _gridContainer.style.gridTemplateColumns = '1fr '.repeat(this._size);
+    _gridContainer.style.width = `${80 * this._size}px`;
+    _gridContainer.style.height = `${80 * this._size}px`;
     for (var i = 0; i < this._size; i++) {
       for (var j = 0; j < this._size; j++) {
         if ((i + j) % 2 == 0) {
@@ -42,9 +44,7 @@ export default class Board {
     }
   };
 
-  public isPositionAvailable = (position: [number, number]) => {};
-
-  public log = (): void => {
-    console.log(this._size, this._fields);
+  public isPositionAvailable = (position: [number, number]): boolean => {
+    return true;
   };
 }
