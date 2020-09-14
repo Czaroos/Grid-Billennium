@@ -5,4 +5,34 @@
 
 .black {
   background-color: black;
+  height: 80px;
+  width: 80px;
+
+  &.icon {
+    color: white;
+    font-size: 5rem;
+    text-align: center;
+  }
+}
+
+.white {
+  background-color: white;
+  height: 80px;
+  width: 80px;
+
+  &.icon {
+    color: black;
+    font-size: 5rem;
+    text-align: center;
+  }
+}
+
+.green {
+  background-color: green;
+  opacity: 0.7;
+}
+
+.red {
+  background-color: red;
+  opacity: 0.7;
 }

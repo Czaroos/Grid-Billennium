@@ -8,3 +8,17 @@ export const enum Direction {
   SOUTHWEST = 7,
   WEST = 8,
 }
+
+export const enum VisibleIcon {
+  ASTRIX = '*',
+  EQUALS = '=',
+  EXCLAMATION_MARK = '!',
+  HASHTAG = '#',
+  MINUS = '-',
+  PLUS = '+',
+  QUESTION_MARK = '?',
+  SEMICOLON = ';',
+  TILDA = '~',
+}
+
+export type Size = 5 | 6 | 7 | 8 | 9 | 10;
