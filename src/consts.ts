@@ -1,13 +1,31 @@
-export const enum Direction {
-  EAST = 1,
-  NORTH = 2,
-  NORTHEAST = 3,
-  NORTHWEST = 4,
-  SOUTH = 5,
-  SOUTHEAST = 6,
-  SOUTHWEST = 7,
-  WEST = 8,
+interface Direction {
+  [direction: string]: [number, number];
 }
+
+const availableMovements: Direction = {
+  EAST: [0, -1],
+  NORTH: [1, 0],
+  NORTHEAST: [1, -1],
+  NORTHWEST: [1, 1],
+  SOUTH: [-1, 0],
+  SOUTHEAST: [-1, -1],
+  SOUTHWEST: [-1, 1],
+  WEST: [0, 1],
+};
+
+export const cartesianMovements: number[][] = [
+  availableMovements['EAST'],
+  availableMovements['NORTH'],
+  availableMovements['SOUTH'],
+  availableMovements['WEST'],
+];
+
+export const diagonalMovements: number[][] = [
+  availableMovements['NORTHEAST'],
+  availableMovements['NORTHWEST'],
+  availableMovements['SOUTHEAST'],
+  availableMovements['SOUTHWEST'],
+];
 
 export const enum VisibleIcon {
   ASTRIX = '*',

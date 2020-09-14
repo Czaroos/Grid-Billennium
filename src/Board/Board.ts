@@ -1,13 +1,11 @@
 import { Size } from '../consts';
 
 export default class Board {
-  private _size: Size;
-  private _fields: object[][];
+  readonly size: Size;
   private static _instance: Board;
 
   private constructor(size: Size) {
-    this._size = size;
-    this._fields = [];
+    this.size = size;
     this.generateBoard();
   }
 
@@ -19,21 +17,13 @@ export default class Board {
     return Board._instance;
   }
 
-  public getSize(): number {
-    return this._size;
-  }
-
-  public getFields(): object[][] {
-    return this._fields;
-  }
-
   private generateBoard = (): void => {
     var _gridContainer = document.getElementById('container')!;
-    _gridContainer.style.gridTemplateColumns = '1fr '.repeat(this._size);
-    _gridContainer.style.width = `${80 * this._size}px`;
-    _gridContainer.style.height = `${80 * this._size}px`;
-    for (var i = 0; i < this._size; i++) {
-      for (var j = 0; j < this._size; j++) {
+    _gridContainer.style.gridTemplateColumns = '1fr '.repeat(this.size);
+    _gridContainer.style.width = `${100 * this.size}px`;
+    _gridContainer.style.height = `${100 * this.size}px`;
+    for (var i = 0; i < this.size; i++) {
+      for (var j = 0; j < this.size; j++) {
         if ((i + j) % 2 == 0) {
           var _cellBlack = `<div class="black" id="[${i}][${j}]"></div>`;
           _gridContainer.insertAdjacentHTML('beforeend', _cellBlack);
@@ -45,10 +35,22 @@ export default class Board {
     }
   };
 
-  public isPositionAvailable = (position: [number, number]): boolean => {
-    const element = document.getElementById(`[${position[0]}][${position[1]}]`)!
-      .innerHTML;
-    if (element === '') return true;
+  public isPositionAvailable = (
+    position: [number, number]
+  ): boolean | undefined => {
+    if (
+      0 > position[0] ||
+      0 > position[1] ||
+      position[0] >= this.size ||
+      position[1] >= this.size
+    ) {
+      return undefined;
+    }
+    const element = document.getElementById(
+      `[${position[0]}][${position[1]}]`
+    )!;
+    const elementHTML = element.innerHTML;
+    if (elementHTML === '') return true;
     else return false;
   };
 }

@@ -1,11 +1,11 @@
 import Board from '../Board/Board';
-import { Direction, VisibleIcon } from '../consts';
+import { VisibleIcon } from '../consts';
 import Movable from './Movable.interface';
 
 const randomizePosition = (board: Board): [number, number] => {
   return [
-    Math.floor(Math.random() * board.getSize()),
-    Math.floor(Math.random() * board.getSize()),
+    Math.floor(Math.random() * board.size),
+    Math.floor(Math.random() * board.size),
   ];
 };
 
@@ -13,17 +13,23 @@ export default class Icon {
   private _moveAbility: Movable | undefined;
   private _position: [number, number];
   private _visibleIcon: VisibleIcon;
+  private _board: Board;
 
-  constructor(board: Board, visibleIcon: VisibleIcon, moveAbility?: Movable) {
+  private constructor(
+    board: Board,
+    visibleIcon: VisibleIcon,
+    moveAbility?: Movable
+  ) {
     this._moveAbility = moveAbility;
     this._visibleIcon = visibleIcon;
-    this._position = this.setInitialPosition(board);
+    this._board = board;
+    this._position = this.setInitialPosition();
   }
 
-  private setInitialPosition = (board: Board): [number, number] => {
-    let position = randomizePosition(board);
-    while (!board.isPositionAvailable(position)) {
-      position = randomizePosition(board);
+  private setInitialPosition = (): [number, number] => {
+    let position = randomizePosition(this._board);
+    while (!this._board.isPositionAvailable(position)) {
+      position = randomizePosition(this._board);
     }
     return position;
   };
@@ -32,13 +38,25 @@ export default class Icon {
     this._moveAbility = moveAbility;
   }
 
-  public move(direction: Direction): void {
-    if (this._moveAbility) this._position = this._moveAbility.move(direction);
-  }
+  public move = (direction: [number, number]): void => {
+    this._position = [
+      this._position[0] + direction[0],
+      this._position[1] + direction[1],
+    ];
+  };
 
   public showAvailableMoves(): void {
-    if (this._moveAbility) this._moveAbility.showAvailableMoves();
+    if (this._moveAbility)
+      this._moveAbility.showAvailableMoves(this._board, this._position);
   }
+
+  public hideAvailableMoves(): void {
+    if (this._moveAbility) this._moveAbility.hideAvailableMoves(this._position);
+  }
+
+  public getPosition = () => {
+    return this._position;
+  };
 
   public static generateIcon = (
     board: Board,

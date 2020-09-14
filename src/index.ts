@@ -7,8 +7,19 @@ import MovableCartesian from './Icon/MovableCartesian';
 const board = Board.getInstance(5);
 const icon = Icon.generateIcon(
   board,
-  VisibleIcon.ASTRIX,
+  VisibleIcon.MINUS,
+  new MovableCartesian()
+);
+const icon2 = Icon.generateIcon(
+  board,
+  VisibleIcon.QUESTION_MARK,
+  new MovableCartesian()
+);
+const icon3 = Icon.generateIcon(
+  board,
+  VisibleIcon.HASHTAG,
   new MovableCartesian()
 );
 
-console.log(board.getFields(), board.getSize());
+icon.showAvailableMoves();
+icon.hideAvailableMoves();

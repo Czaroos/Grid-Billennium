@@ -1,6 +1,6 @@
-import { Direction } from '../consts';
+import Board from '../Board/Board';
 
 export default interface Movable {
-  move(direction: Direction): [number, number];
-  showAvailableMoves(): void;
+  showAvailableMoves(board: Board, position: [number, number]): void;
+  hideAvailableMoves(position: [number, number]): void;
 }
