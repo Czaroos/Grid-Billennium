@@ -24,7 +24,29 @@ export default class Icon {
     this._visibleIcon = visibleIcon;
     this._board = board;
     this._position = this.setInitialPosition();
+    this.initializeShowAvailableMovesOnClick();
   }
+
+  private initializeShowAvailableMovesOnClick = () => {
+    console.log('initalized show available onclick');
+    const element = document.getElementById(
+      `[${this._position[0]}][${this._position[1]}]`
+    )!;
+
+    console.log(element);
+
+    element.addEventListener('click', () => this.showAvailableMoves());
+  };
+
+  private initializeMoveOnClick = () => {
+    console.log('initalized move onclick');
+    const elements = document.querySelectorAll('.green')!;
+    elements.forEach((element) => {
+      element.addEventListener('click', () =>
+        this.move([parseInt(element.id[1], 10), parseInt(element.id[4], 10)])
+      );
+    });
+  };
 
   private setInitialPosition = (): [number, number] => {
     let position = randomizePosition(this._board);
@@ -38,21 +60,49 @@ export default class Icon {
     this._moveAbility = moveAbility;
   }
 
-  public move = (direction: [number, number]): void => {
-    this._position = [
-      this._position[0] + direction[0],
-      this._position[1] + direction[1],
-    ];
+  initializeRegularTilesOnClick = () => {
+    const elements = document.querySelectorAll('.white, .black')!;
+    elements.forEach((element) => {
+      if (element.innerHTML === '')
+        element.addEventListener('click', () => this.hideAvailableMoves());
+    });
   };
 
-  public showAvailableMoves(): void {
-    if (this._moveAbility)
-      this._moveAbility.showAvailableMoves(this._board, this._position);
+  private move(next: [number, number]): void {
+    this.hideAvailableMoves();
+    this.initializeRegularTilesOnClick();
+    if (this._moveAbility) {
+      const previousPosition = document.getElementById(
+        `[${this._position[0]}][${this._position[1]}]`
+      )!;
+      previousPosition.classList.remove('icon');
+      previousPosition.innerHTML = '';
+
+      this._position = this._moveAbility.move(next);
+
+      const currentPosition = document.getElementById(
+        `[${this._position[0]}][${this._position[1]}]`
+      )!;
+      currentPosition.innerHTML = this._visibleIcon;
+      currentPosition.classList.add('icon');
+      this.initializeShowAvailableMovesOnClick();
+    }
   }
 
-  public hideAvailableMoves(): void {
-    if (this._moveAbility) this._moveAbility.hideAvailableMoves(this._position);
+  private showAvailableMoves(): void {
+    this.hideAvailableMoves();
+    if (this._moveAbility) {
+      this._moveAbility.showAvailableMoves(this._board, this._position);
+      this.initializeMoveOnClick();
+    }
   }
+
+  public hideAvailableMoves = () => {
+    const elements = document.querySelectorAll('.green, .red')!;
+    elements.forEach((element) => {
+      element.classList.remove('green', 'red');
+    });
+  };
 
   public getPosition = () => {
     return this._position;

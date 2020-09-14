@@ -40,3 +40,6 @@ export const enum VisibleIcon {
 }
 
 export type Size = 5 | 6 | 7 | 8 | 9 | 10;
+
+export const TILE_WIDTH = 100;
+export const TILE_HEIGHT = 100;

@@ -3,23 +3,20 @@ import Board from './Board/Board';
 import Icon from './Icon/Icon';
 import { VisibleIcon } from './consts';
 import MovableCartesian from './Icon/MovableCartesian';
+import MovableDiagonally from './Icon/MovableDiagonally';
 
 const board = Board.getInstance(5);
-const icon = Icon.generateIcon(
+const cartesianIcon = Icon.generateIcon(
   board,
   VisibleIcon.MINUS,
   new MovableCartesian()
 );
-const icon2 = Icon.generateIcon(
+const diagonalIcon = Icon.generateIcon(
   board,
   VisibleIcon.QUESTION_MARK,
-  new MovableCartesian()
+  new MovableDiagonally()
 );
-const icon3 = Icon.generateIcon(
-  board,
-  VisibleIcon.HASHTAG,
-  new MovableCartesian()
-);
+const immovableIcon = Icon.generateIcon(board, VisibleIcon.HASHTAG);
 
-icon.showAvailableMoves();
-icon.hideAvailableMoves();
+// icon.showAvailableMoves();
+// icon.hideAvailableMoves();

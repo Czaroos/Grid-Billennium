@@ -1,4 +1,4 @@
-import { Size } from '../consts';
+import { Size, TILE_HEIGHT, TILE_WIDTH } from '../consts';
 
 export default class Board {
   readonly size: Size;
@@ -7,6 +7,7 @@ export default class Board {
   private constructor(size: Size) {
     this.size = size;
     this.generateBoard();
+    this.initializeOnClickEvent();
   }
 
   public static getInstance(size: Size): Board {
@@ -17,11 +18,19 @@ export default class Board {
     return Board._instance;
   }
 
+  initializeOnClickEvent = () => {
+    const elements = document.querySelectorAll('.white, .black')!;
+    elements.forEach((element) => {
+      if (element.innerHTML === '')
+        element.addEventListener('click', () => this.hideAvailableMoves());
+    });
+  };
+
   private generateBoard = (): void => {
     var _gridContainer = document.getElementById('container')!;
     _gridContainer.style.gridTemplateColumns = '1fr '.repeat(this.size);
-    _gridContainer.style.width = `${100 * this.size}px`;
-    _gridContainer.style.height = `${100 * this.size}px`;
+    _gridContainer.style.width = `${TILE_WIDTH * this.size}px`;
+    _gridContainer.style.height = `${TILE_HEIGHT * this.size}px`;
     for (var i = 0; i < this.size; i++) {
       for (var j = 0; j < this.size; j++) {
         if ((i + j) % 2 == 0) {
@@ -33,6 +42,13 @@ export default class Board {
         }
       }
     }
+  };
+
+  public hideAvailableMoves = () => {
+    const elements = document.querySelectorAll('.green, .red')!;
+    elements.forEach((element) => {
+      element.classList.remove('green', 'red');
+    });
   };
 
   public isPositionAvailable = (

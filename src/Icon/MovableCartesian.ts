@@ -3,11 +3,8 @@ import Movable from './Movable.interface';
 import Board from '../Board/Board';
 
 export default class MovableCartesian implements Movable {
-  public hideAvailableMoves = () => {
-    const elements = document.querySelectorAll('.green, .red')!;
-    elements.forEach((element) => {
-      element.classList.remove('green', 'red');
-    });
+  public move = (next: [number, number]): [number, number] => {
+    return next;
   };
 
   public showAvailableMoves = (
