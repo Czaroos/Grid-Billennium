@@ -12,40 +12,48 @@ const randomizePosition = (board: Board): [number, number] => {
 export default class Icon {
   private _moveAbility: Movable | undefined;
   private _position: [number, number];
-  private _visibleIcon: VisibleIcon;
+  readonly _visibleIcon: VisibleIcon;
   private _board: Board;
+  private _availableMoves: number[][];
 
   private constructor(
     board: Board,
     visibleIcon: VisibleIcon,
     moveAbility?: Movable
   ) {
+    this._availableMoves = [];
     this._moveAbility = moveAbility;
     this._visibleIcon = visibleIcon;
     this._board = board;
     this._position = this.setInitialPosition();
-    this.initializeShowAvailableMovesOnClick();
+    if (moveAbility) this.initializeShowAvailableMovesOnClick();
   }
 
   private initializeShowAvailableMovesOnClick = () => {
-    console.log('initalized show available onclick');
-    const element = document.getElementById(
+    document.getElementById(
       `[${this._position[0]}][${this._position[1]}]`
-    )!;
-
-    console.log(element);
-
-    element.addEventListener('click', () => this.showAvailableMoves());
+    )!.onclick = () => this.showAvailableMoves();
   };
 
   private initializeMoveOnClick = () => {
-    console.log('initalized move onclick');
-    const elements = document.querySelectorAll('.green')!;
-    elements.forEach((element) => {
-      element.addEventListener('click', () =>
-        this.move([parseInt(element.id[1], 10), parseInt(element.id[4], 10)])
-      );
+    this._availableMoves.forEach((move) => {
+      document.getElementById(`[${move[0]}][${move[1]}]`)!.onclick = () =>
+        this.move([move[0], move[1]]);
     });
+  };
+
+  private garbageCollector = () => {
+    const previousPosition = document.getElementById(
+      `[${this._position[0]}][${this._position[1]}]`
+    )!;
+    previousPosition.onclick = () => {};
+    previousPosition.classList.remove('icon');
+    previousPosition.innerHTML = '';
+    this._availableMoves.forEach((move) => {
+      document.getElementById(`[${move[0]}][${move[1]}]`)!.onclick = () => {};
+    });
+    this._availableMoves = [];
+    this._board.hideAvailableMoves();
   };
 
   private setInitialPosition = (): [number, number] => {
@@ -58,25 +66,12 @@ export default class Icon {
 
   public setMoveAbility(moveAbility?: Movable) {
     this._moveAbility = moveAbility;
+    this.initializeShowAvailableMovesOnClick();
   }
 
-  initializeRegularTilesOnClick = () => {
-    const elements = document.querySelectorAll('.white, .black')!;
-    elements.forEach((element) => {
-      if (element.innerHTML === '')
-        element.addEventListener('click', () => this.hideAvailableMoves());
-    });
-  };
-
   private move(next: [number, number]): void {
-    this.hideAvailableMoves();
-    this.initializeRegularTilesOnClick();
     if (this._moveAbility) {
-      const previousPosition = document.getElementById(
-        `[${this._position[0]}][${this._position[1]}]`
-      )!;
-      previousPosition.classList.remove('icon');
-      previousPosition.innerHTML = '';
+      this.garbageCollector();
 
       this._position = this._moveAbility.move(next);
 
@@ -85,24 +80,20 @@ export default class Icon {
       )!;
       currentPosition.innerHTML = this._visibleIcon;
       currentPosition.classList.add('icon');
-      this.initializeShowAvailableMovesOnClick();
+      currentPosition.onclick = () => this.showAvailableMoves();
     }
   }
 
   private showAvailableMoves(): void {
-    this.hideAvailableMoves();
+    this._board.hideAvailableMoves();
     if (this._moveAbility) {
-      this._moveAbility.showAvailableMoves(this._board, this._position);
+      this._availableMoves = this._moveAbility.showAvailableMoves(
+        this._board,
+        this._position
+      );
       this.initializeMoveOnClick();
     }
   }
-
-  public hideAvailableMoves = () => {
-    const elements = document.querySelectorAll('.green, .red')!;
-    elements.forEach((element) => {
-      element.classList.remove('green', 'red');
-    });
-  };
 
   public getPosition = () => {
     return this._position;

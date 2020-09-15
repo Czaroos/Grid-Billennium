@@ -7,7 +7,6 @@ export default class Board {
   private constructor(size: Size) {
     this.size = size;
     this.generateBoard();
-    this.initializeOnClickEvent();
   }
 
   public static getInstance(size: Size): Board {
@@ -17,14 +16,6 @@ export default class Board {
 
     return Board._instance;
   }
-
-  initializeOnClickEvent = () => {
-    const elements = document.querySelectorAll('.white, .black')!;
-    elements.forEach((element) => {
-      if (element.innerHTML === '')
-        element.addEventListener('click', () => this.hideAvailableMoves());
-    });
-  };
 
   private generateBoard = (): void => {
     var _gridContainer = document.getElementById('container')!;

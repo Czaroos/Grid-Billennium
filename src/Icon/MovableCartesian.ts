@@ -10,7 +10,8 @@ export default class MovableCartesian implements Movable {
   public showAvailableMoves = (
     board: Board,
     position: [number, number]
-  ): void => {
+  ): number[][] => {
+    const availableMoves: number[][] = [];
     cartesianMovements.forEach((movement) => {
       if (
         board.isPositionAvailable([
@@ -23,6 +24,10 @@ export default class MovableCartesian implements Movable {
             `[${position[0] + movement[0]}][${position[1] + movement[1]}]`
           )!
           .classList.add('green');
+        availableMoves.push([
+          position[0] + movement[0],
+          position[1] + movement[1],
+        ]);
       } else if (
         board.isPositionAvailable([
           position[0] + movement[0],
@@ -36,5 +41,6 @@ export default class MovableCartesian implements Movable {
           .classList.add('red');
       }
     });
+    return availableMoves;
   };
 }

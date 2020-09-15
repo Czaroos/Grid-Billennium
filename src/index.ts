@@ -6,6 +6,7 @@ import MovableCartesian from './Icon/MovableCartesian';
 import MovableDiagonally from './Icon/MovableDiagonally';
 
 const board = Board.getInstance(5);
+
 const cartesianIcon = Icon.generateIcon(
   board,
   VisibleIcon.MINUS,
@@ -18,5 +19,7 @@ const diagonalIcon = Icon.generateIcon(
 );
 const immovableIcon = Icon.generateIcon(board, VisibleIcon.HASHTAG);
 
-// icon.showAvailableMoves();
-// icon.hideAvailableMoves();
+// We can change icon moveability during program execution
+// Uncomment line below to check
+
+// immovableIcon.setMoveAbility(new MovableCartesian());
