@@ -1,6 +1,6 @@
-import Board from '../Board/Board';
+import Board from '../board/Board';
 import { VisibleIcon } from '../consts';
-import Movable from './Movable.interface';
+import Movable from './Movable';
 
 const randomizePosition = (board: Board): [number, number] => {
   return [

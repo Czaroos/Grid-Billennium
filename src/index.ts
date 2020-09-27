@@ -1,9 +1,9 @@
 import './index.scss';
-import Board from './Board/Board';
-import Icon from './Icon/Icon';
+import Board from './board/Board';
+import Icon from './icon/Icon';
 import { VisibleIcon } from './consts';
-import MovableCartesian from './Icon/MovableCartesian';
-import MovableDiagonally from './Icon/MovableDiagonally';
+import MovableCartesian from './icon/MovableCartesian';
+import MovableDiagonally from './icon/MovableDiagonally';
 
 const board = Board.getInstance(5);
 

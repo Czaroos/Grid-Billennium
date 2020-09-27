@@ -1,6 +1,6 @@
 import { cartesianMovements } from '../consts';
-import Movable from './Movable.interface';
-import Board from '../Board/Board';
+import Movable from './Movable';
+import Board from '../board/Board';
 
 export default class MovableCartesian implements Movable {
   public move = (next: [number, number]): [number, number] => {

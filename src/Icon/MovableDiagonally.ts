@@ -1,6 +1,6 @@
-import Board from '../Board/Board';
+import Board from '../board/Board';
 import { diagonalMovements } from '../consts';
-import Movable from './Movable.interface';
+import Movable from './Movable';
 
 export default class MovableDiagonally implements Movable {
   public move = (next: [number, number]): [number, number] => {
